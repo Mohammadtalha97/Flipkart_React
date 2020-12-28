@@ -1,0 +1,151 @@
+--> Header.js
+--> Layout.js
+--> Home.js
+--> UI/Input - index.js
+--> Signin/signup
+
+--------------------
+(*) Redux
+--------------------
+
+--> reducers : index.js [export function with state obj]
+    export default (state = { name: "talha" }, action) => {
+    return state;
+    };
+
+--> store : index.js [import reducer and store it in]
+    import { createStore } from "redux";
+    import rootReducer from "../reducers";
+    const store = createStore(rootReducer);
+
+    export default store;
+
+
+--> index.js : provider
+  <Provider store={store}>  </Provider>,
+
+
+
+
+--> action.js : auth.actions.js 
+    import { authConstant } from "../constant";
+
+    export const login = (user) => {
+    return (dispatch) => {
+            dispatch({
+            type: authConstant.LOGIN_REQUEST,
+            payload: {
+                login: true,
+            },
+            });
+        };
+    };
+
+
+
+
+--> import this action in component
+
+
+
+--> we dispatch form login which gose to the action
+--> but from actions it has to go at reducers 
+--> for these async action we use middleware "thunk"
+
+
+--> Access For Dashboard & Restric Signin 
+
+    - in Privateroute we have declare that is admin has token then and only then he can access dashborad otherwise directed to sign in page
+    
+    - in signin.js we make api call 
+    - check in action status code 200
+    - update authenticated to TRUE in store
+
+    - in signin.js we take that authenticated value from store and check if it is TRUE then redirect to 'Dashboard'
+
+    - if are redirected toward Dashboard now in URL we write /signin so it will take us to sign in page 
+    - But Admin have already completed sign in so login page should not be visible to admin
+    - But why this is happening we have writter code for redirect then what happen..?
+    - When we write /signin in URL the entire page RELOAD and becauase of that Store values became NULL
+
+    - so we have to check on every page load that token is exists or not if yes then authenticated : TRUE 
+     
+
+
+
+
+
+
+
+
+
+----------------
+(*) sidebar
+----------------
+
+-> menu me jakar uski z-index badha dena 
+
+<Layout>
+    <Container fluid>
+    <Row>
+        <Col md={2} className="sidebar">
+        Side bar
+        </Col>
+        <Col style={{ marginLeft: "auto" }} md={10}>
+        container
+        </Col>
+    </Row>
+    </Container>
+</Layout>
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #eee;
+  padding-top: 60px;
+  box-shadow: inset 0 0 5px gray;
+}
+
+
+
+
+--> scrollbar hata ne k liye container ka use karo
+
+
+
+
+--> products and orders are access by admin only so that we make them as a Privateroute
+
+--> in order and product we want same layout so we write in <Layout> tag 
+
+--> now check App.js
+
+    <PrivateRoute path="/products" component={() => <Product />} />
+    <PrivateRoute path="/orders" component={() => <Orders />} />
+
+
+--> Now, in product component
+
+    import React from "react";
+    import Layout from "../../components/Layout";
+
+    const Product = (props) => {
+    return <Layout sidebar>Products</Layout>;
+    };
+
+    export default Product;
+
+
+--> Why sidebar as a props....?
+    - because we want sidebar same as home page in product and order also 
+
+--> the component which need sidebar they pass sidebar as  a props and those component who do not need sidebar they simpley called <Layout>
+
+    - signin and signup don't require sidebar so they simpley called <Layout>
+    - product and order and home require sidebar so they called <Layout sidebar>
+
+    - in Layout we check that if props.sidebar exists then show them 
+    - if they don't exist simply return those component
