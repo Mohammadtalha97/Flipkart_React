@@ -8,35 +8,47 @@ const intialState = {
 
 const buildNewCategories = (parentId, stateCategory, newCategory) => {
   let myCategories = [];
+
+  //if category is new without any  parent
+  if (parentId === undefined) {
+    return [
+      ...stateCategory,
+      {
+        _id: newCategory._id,
+        name: newCategory.name,
+        slug: newCategory.slug,
+        children: [],
+      },
+    ];
+  }
+
   for (let cat of stateCategory) {
-    if (cat._id == parentId) {
+    if (cat._id === parentId) {
       myCategories.push({
         ...cat,
-        children:
-          cat.children && cat.children.length > 0
-            ? buildNewCategories(
-                parentId,
-                [
-                  ...cat.children,
-                  {
-                    _id: newCategory._id,
-                    name: newCategory.name,
-                    slug: newCategory.slug,
-                    parentId: newCategory.parentId,
-                    children: newCategory.children,
-                  },
-                ],
-                newCategory
-              )
-            : [],
+        children: cat.children
+          ? buildNewCategories(
+              parentId,
+              [
+                ...cat.children,
+                {
+                  _id: newCategory._id,
+                  name: newCategory.name,
+                  slug: newCategory.slug,
+                  parentId: newCategory.parentId,
+                  children: newCategory.children,
+                },
+              ],
+              newCategory
+            )
+          : [],
       });
     } else {
       myCategories.push({
         ...cat,
-        children:
-          cat.children && cat.children.length > 0
-            ? buildNewCategories(parentId, cat.children, newCategory)
-            : [],
+        children: cat.children
+          ? buildNewCategories(parentId, cat.children, newCategory)
+          : [],
       });
     }
   }

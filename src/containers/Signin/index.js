@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import Layout from "../../components/Layout";
-import Input from "../../components/UI/Input";
+import Input from "../../components/UI_Common/Input";
 import { login } from "../../redux/actions";
 
 const Signin = (props) => {

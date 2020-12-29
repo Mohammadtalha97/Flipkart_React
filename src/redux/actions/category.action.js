@@ -1,4 +1,3 @@
-import axiosInstance from "../../helpers/axios";
 import axios from "../../helpers/axios";
 import { categoryConstant } from "../constant";
 

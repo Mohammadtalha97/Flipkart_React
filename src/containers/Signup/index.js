@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import Layout from "../../components/Layout";
-import Input from "../../components/UI/Input";
+import Input from "../../components/UI_Common/Input";
 import { registration } from "../../redux/actions";
 
 const Signup = (props) => {
@@ -30,8 +30,6 @@ const Signup = (props) => {
       email,
       password,
     };
-
-    console.log(user);
 
     dispatch(registration(user));
   };

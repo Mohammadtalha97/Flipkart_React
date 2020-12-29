@@ -12,8 +12,6 @@ export const registration = (user) => {
       ...user,
     });
 
-    console.log(res);
-
     if (res.status === 201) {
       const { message } = res.data;
 

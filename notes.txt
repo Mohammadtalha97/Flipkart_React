@@ -149,3 +149,182 @@
 
     - in Layout we check that if props.sidebar exists then show them 
     - if they don't exist simply return those component
+
+
+
+
+
+
+
+
+-------------------------------
+(*) Storing Image
+-------------------------------
+
+- Image [http://expressjs.com/en/resources/middleware/multer.html]
+    - we use multer for accepting files[.pdf, .pnj anything]
+    - const storage = multer.diskStorage({
+        destination : 
+            -where we want to store image [\uploads folder],
+            - no des given then the operating system's default directory for temporary files is used
+        filename : 
+            - we have to write file.originalname so that we get file with extention other wise 
+            - each file will be given a random name that doesn't include any file extension
+    })
+
+    - we pass this storage into multer 
+        - const upload =  multer({storage}) 
+    
+    - in upload we have destination and filename 
+    - at the time of api request we check on entry level
+    - upload.single(fieldName)
+        - fieldName must be same
+
+    - Single File [upload.single], Multiple File [upload.array('profiles')]
+    - for single and multiple the code remain same
+
+    - In controller we get this file using req.file || req.files
+
+
+    - Now how we store image in db...?
+        - Upload Folder
+            - we sotre uploaded file in our directly
+            - using shortid we will add some random string before file name
+            - so file name will be unique
+        - Path in DB
+            - we store path like http://localhost:8000/public/filename
+            - public so that we can access file direct from browser
+            - But we have to define public as static in middleware 
+            - Means when user access image in browser using public it hit on middleware 
+            - IN that middleware we have define path to the /upload folder so it will go there and display image
+
+            - Example : 
+                app.use("/public", express.static(path.join(__dirname, `\\src\\uploads`)));
+
+
+
+
+----------------------------------
+(*) Product and category
+----------------------------------
+
+--> a product must have a category so first we will see what we can store in category table
+
+--> Category : name, slug,categoryImage[logo] , parentId
+    - a category can have sub-category 
+    - example : Electronice have Mobile,laptop, camera etc..
+    - so it must have ParentId
+    {
+        name,
+        slug,
+        categoryImage[path],
+        parentId
+    }
+
+    - cat_1 = Electronice, parentId : Nothing
+    - cat_2 = Mobile, parentId : Electronice_ID
+    - cat_3 = Samsung, parentId : Mobile_ID
+
+
+
+--> Get Category :
+    - when we get all category like { name, slug, categoryImage, parentId }
+    - now at the time of getting all categories we also need which category has sub category
+    - which means how many children has 
+    - cat_1 Electronice -> Mobile
+    - cat_2 Mobile -> Samsung, Nokia
+
+
+
+--> Step_1
+    - first we have to take all categories who don't have parentId
+    - we got 4-5 result
+    - then declaring 1 array and store all individual category into that array
+    - we write for loop and push each category into array 
+    - BUT wait
+    - here we add 1 new property called 'children' 
+    - 'children' hold all the sub category 
+    - example : Electronice -> mobile, laptop, camera
+
+
+--> Step_2
+    - how we can find childrens of cat_1...?
+    - so we have cat_1's Id which is parentId in other categories
+    - so we check that which categories has parentId as cat_id ID
+    - for that we have to pass cat_id and allCategory object
+
+
+
+
+--> So we have an array which have all category and nested categories also
+--> so we return  this array to client
+
+
+
+
+
+    
+
+
+------------------------------------
+(*) FLOW
+------------------------------------
+
+    - React
+        - on page load [App.js] we dispatch getInitialData()
+        - on that action we make api call   
+            - http://localhost:8000/api/initialData
+    - Node
+        - we fetch Product and Category data from database
+    
+    - React 
+        - Reducer  : initialData.action.js
+            - called this pre-defined reducer's method
+            - GET_ALL_CATEGORIES_SUCCESS
+            - GET_ALL_PRODUCTS_SUCCESS
+        
+        - Store : data store in 'Store'
+
+        - Category.js : 
+            -  const category = useSelector((state) => state.category);
+
+        
+
+
+
+
+
+-->
+(1)Category.js : 
+    - const category = useSelector((state) => state.category);
+    - display data using category object
+
+
+
+--> Image   
+    - if we store single image for single record
+    - then we should use unique id of record as file name 
+    - and store in upload folder so old image overwrite by new image 
+
+
+    --> Image Save
+        --> front-end se base64 me convert kar k bhejna 
+        --> back-end me check karna image hai ki nahi
+        --> nahi hai to error 
+        --> hai to image ka nama with extention DB me save karna hai
+
+    --> Image Get   
+        --> database mese image ka naam get karna
+        --> ab controller me image naam ko upload k sath map kar k get karna hai
+        --> us image ko base64 me convert karn k front-end ko bhej dena [src]
+
+
+
+--> store image in base64 
+
+
+
+
+--> Changes
+    - when page load - get request of only 5 record
+    - on record click - getDetails by id
