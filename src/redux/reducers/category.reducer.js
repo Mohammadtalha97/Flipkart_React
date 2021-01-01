@@ -24,24 +24,18 @@ const buildNewCategories = (parentId, stateCategory, newCategory) => {
 
   for (let cat of stateCategory) {
     if (cat._id === parentId) {
+      const newCat = {
+        _id: newCategory._id,
+        name: newCategory.name,
+        slug: newCategory.slug,
+        parentId: newCategory.parentId,
+        children: [],
+      };
+
       myCategories.push({
         ...cat,
-        children: cat.children
-          ? buildNewCategories(
-              parentId,
-              [
-                ...cat.children,
-                {
-                  _id: newCategory._id,
-                  name: newCategory.name,
-                  slug: newCategory.slug,
-                  parentId: newCategory.parentId,
-                  children: newCategory.children,
-                },
-              ],
-              newCategory
-            )
-          : [],
+        children:
+          cat.children.length > 0 ? [...cat.children, newCat] : [newCat],
       });
     } else {
       myCategories.push({

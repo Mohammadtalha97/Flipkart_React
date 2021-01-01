@@ -291,10 +291,71 @@
         
 
 
+----------------------------
+(*) Category Edit
+---------------------------
+
+--> CheckboxTree is used to display data in tree formate
+--> it has 1 parameter called "node"
+--> in renderCategories 
+    - we created 1 array which hold 
+        [
+            {
+                label - name of category,
+                value - id of that category,
+                children - {
+                    label, value, children
+                }
+            }
+        ]
+--> this array passed in CheckboxTree
+
+
+--> we need to trake which values are checked and which are expaned so we declare 2 variable called 
+  const [checked, setChecked] = useState([]);
+  const [expanded, setExpanded] = useState([]);
 
 
 
--->
+--> onCheck = will add all checked value in "checked" variable,
+--> onExpanded = will add all expanded value in "expanded" variable,
+
+
+--> Now in checked and expanded variable holds the ID of that array
+
+
+
+--> EDIT Category
+    - when user click on Edit
+    - setUpdateCategoryModel becomes true
+    - and we call createCategoryList function to take array of
+        categories = [
+            {
+                value = cat_id
+                name = cat_name
+                parentId = cat_parentId
+            }
+        ]
+
+
+    - "checked" variable we have all checked ID's
+    - categories variable we have { value, name, parentId}
+    - checkedId === categories.value so we get {name,value,parentId}
+    - so we store checked value name and parentId in checkedArray same gose to expandedArray
+    - and we set this array in global variable checkedArray & expandedArray
+
+
+--> Edit Model Open
+    - we loop throw checkedArray and display details in model
+    - we loop throw expandedArray and display details in model
+
+    - Edit Name
+        - handleCategoryInput we write edit logic
+
+
+
+
+--> Take Care
 (1)Category.js : 
     - const category = useSelector((state) => state.category);
     - display data using category object
