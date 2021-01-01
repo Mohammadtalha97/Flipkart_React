@@ -20,6 +20,8 @@ import {
   getAllCategory,
   updateCategories,
 } from "../../redux/actions";
+import UpdatedCategoriesModel from "./components/UpdateCategoriesModel";
+import AddCategoryModel from "./components/AddCategoryModel";
 
 const Category = (props) => {
   const category = useSelector((state) => state.category);
@@ -182,127 +184,7 @@ const Category = (props) => {
   };
 
   //Render Edit Model
-  const renderUpdatedCategoriesModel = () => {
-    return (
-      <Model
-        show={updateCategoryModel}
-        handleClose={updateCategoriesForm}
-        modelTitle={"Update Categories"}
-        size="lg"
-      >
-        <Row>
-          <Col>
-            <h6>Expanded</h6>
-          </Col>
-        </Row>
-        {expandedArray.length > 0 &&
-          expandedArray.map((item, index) => (
-            <Row key={index}>
-              <Col>
-                <Input
-                  value={item.name}
-                  placeholder="Category Name"
-                  onChange={(e) =>
-                    handleCategoryInput(
-                      "name",
-                      e.target.value,
-                      index,
-                      "expanded"
-                    )
-                  }
-                />
-              </Col>
-              <Col>
-                <select
-                  className="form-control"
-                  value={item.parentId}
-                  onChange={(e) =>
-                    handleCategoryInput(
-                      "parentId",
-                      e.target.value,
-                      index,
-                      "expanded"
-                    )
-                  }
-                >
-                  <option>Select Option</option>
-                  {createCategoryList(category.categories).map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </Col>
-              <Col>
-                <select className="form-control">
-                  <option value="">Select Type</option>
-                  <option value="store">Store</option>
-                  <option value="product">Product</option>
-                  <option value="page">Page</option>
-                </select>
-              </Col>
-            </Row>
-          ))}
 
-        {/* Checked */}
-        <h6>Checked Categories</h6>
-        {checkedArray.length > 0 &&
-          checkedArray.map((item, index) => (
-            <Row key={index}>
-              <Col>
-                <Input
-                  value={item.name}
-                  placeholder="Category Name"
-                  onChange={(e) =>
-                    handleCategoryInput(
-                      "name",
-                      e.target.value,
-                      index,
-                      "checked"
-                    )
-                  }
-                />
-              </Col>
-              <Col>
-                <select
-                  className="form-control"
-                  value={item.parentId}
-                  onChange={(e) =>
-                    handleCategoryInput(
-                      "parentId",
-                      e.target.value,
-                      index,
-                      "checked"
-                    )
-                  }
-                >
-                  <option>Select Option</option>
-                  {createCategoryList(category.categories).map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </Col>
-              <Col>
-                <select className="form-control">
-                  <option value="">Select Type</option>
-                  <option value="store">Store</option>
-                  <option value="product">Product</option>
-                  <option value="page">Page</option>
-                </select>
-              </Col>
-            </Row>
-          ))}
-
-        {/* <input
-        type="file"
-        name="categoryImage"
-        onChange={handleCategoryImage}
-      /> */}
-      </Model>
-    );
-  };
   //Render Add Model
   const renderAddCategoryModel = () => {
     return (
@@ -384,12 +266,14 @@ const Category = (props) => {
 
     const idsArray = expandedIdsArray.concat(checkedIdsArray);
 
-    dispatch(deleteAction(idsArray)).then((result) => {
-      if (result) {
-        dispatch(getAllCategory());
-        setDeleteCategoryModel(false);
-      }
-    });
+    if (checkedIdsArray.length > 0) {
+      dispatch(deleteAction(checkedIdsArray)).then((result) => {
+        if (result) {
+          dispatch(getAllCategory());
+          setDeleteCategoryModel(false);
+        }
+      });
+    }
   };
   //Render Delete Model
   const renderDeleteCategoryModel = () => {
@@ -426,14 +310,34 @@ const Category = (props) => {
     );
   };
 
+  const categoryList = createCategoryList(category.categories);
   return (
     <Layout sidebar>
       {/* Show Categories */}
       {renderShowCategories()}
       {/* Add Categories */}
-      {renderAddCategoryModel()}
+      <AddCategoryModel
+        show={show}
+        handleClose={handleClose}
+        modelTitle={"Add New Category"}
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
+        setParentCategoryId={setParentCategoryId}
+        parentCategoryId={parentCategoryId}
+        categoryList={categoryList}
+        handleCategoryImage={handleCategoryImage}
+      />
       {/* Edit Categories */}
-      {renderUpdatedCategoriesModel()}
+      <UpdatedCategoriesModel
+        show={updateCategoryModel}
+        handleClose={handleClose}
+        modelTitle={"Update Categories"}
+        size="lg"
+        expandedArray={expandedArray}
+        checkedArray={checkedArray}
+        handleCategoryInput={handleCategoryInput}
+        categoryList={categoryList}
+      />
       {/* Delete Categories */}
       {renderDeleteCategoryModel()}
     </Layout>
