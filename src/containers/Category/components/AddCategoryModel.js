@@ -2,6 +2,7 @@ import React from "react";
 
 import Input from "../../../components/UI_Common/Input";
 import Model from "../../../components/UI_Common/Model";
+import { Col, Row } from "react-bootstrap";
 
 const AddCategoryModel = (props) => {
   const {
@@ -14,28 +15,48 @@ const AddCategoryModel = (props) => {
     parentCategoryId,
     categoryList,
     handleCategoryImage,
+    onSubmit,
   } = props;
   return (
-    <Model show={show} handleClose={handleClose} modelTitle={modelTitle}>
-      <Input
-        value={categoryName}
-        placeholder="Category Name"
-        onChange={(e) => setCategoryName(e.target.value)}
-      />
-      <select
-        className="form-control"
-        value={parentCategoryId}
-        onChange={(e) => setParentCategoryId(e.target.value)}
-      >
-        <option>Select Option</option>
-        {categoryList.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.name}
-          </option>
-        ))}
-      </select>
-
-      <input type="file" name="categoryImage" onChange={handleCategoryImage} />
+    <Model
+      onSubmit={onSubmit}
+      show={show}
+      handleClose={handleClose}
+      modelTitle={modelTitle}
+    >
+      <Row>
+        <Col>
+          <Input
+            value={categoryName}
+            placeholder="Category Name"
+            onChange={(e) => setCategoryName(e.target.value)}
+            className="form-control-sm"
+          />
+        </Col>
+        <Col>
+          <select
+            className="form-control form-control-sm"
+            value={parentCategoryId}
+            onChange={(e) => setParentCategoryId(e.target.value)}
+          >
+            <option>Select Option</option>
+            {categoryList.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <input
+            type="file"
+            name="categoryImage"
+            onChange={handleCategoryImage}
+          />
+        </Col>
+      </Row>
     </Model>
   );
 };

@@ -28,7 +28,8 @@ axiosInstance.interceptors.response.use(
     return res;
   },
   (error) => {
-    const { status } = error.response;
+    const status = error.response ? error.response.status : 500;
+    console.log("Status--->", status);
     if (status === 500) {
       localStorage.clear();
       store.dispatch({

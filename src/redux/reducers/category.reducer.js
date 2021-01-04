@@ -17,6 +17,7 @@ const buildNewCategories = (parentId, stateCategory, newCategory) => {
         _id: newCategory._id,
         name: newCategory.name,
         slug: newCategory.slug,
+        type: newCategory.type,
         children: [],
       },
     ];
@@ -29,6 +30,7 @@ const buildNewCategories = (parentId, stateCategory, newCategory) => {
         name: newCategory.name,
         slug: newCategory.slug,
         parentId: newCategory.parentId,
+        type: newCategory.type,
         children: [],
       };
 
@@ -72,7 +74,6 @@ const categoryReducer = (state = intialState, action) => {
         error: action.payload.error,
       };
       break;
-
     case categoryConstant.ADD_NEW_CATEGORY_REQUEST:
       state = {
         ...state,
@@ -95,6 +96,46 @@ const categoryReducer = (state = intialState, action) => {
     case categoryConstant.ADD_NEW_CATEGORY_FAILUER:
       state = {
         ...intialState,
+        loading: false,
+        error: action.payload.error,
+      };
+      break;
+    case categoryConstant.UPDATE_CATEGORY_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case categoryConstant.UPDATE_CATEGORY_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case categoryConstant.UPDATE_CATEGORY_FAILUER:
+      state = {
+        ...state,
+        error: action.payload.error,
+        loading: false,
+      };
+      break;
+    case categoryConstant.DELETE_CATEGORY_REQUEST:
+      state = {
+        ...state,
+        loading: true,
+      };
+      break;
+    case categoryConstant.DELETE_CATEGORY_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+      };
+      break;
+    case categoryConstant.DELETE_CATEGORY_FAILUER:
+      state = {
+        ...state,
+        loading: false,
+        error: action.payload.error,
       };
       break;
     default:

@@ -12,6 +12,7 @@ import { getInitialData, isUserLoggedIn } from "./redux/actions";
 import Product from "./containers/Products";
 import Orders from "./containers/Orders";
 import Category from "./containers/Category";
+import NewPage from "./containers/NewPage";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -22,14 +23,18 @@ function App() {
     if (!auth.authenticated) {
       dispatch(isUserLoggedIn());
     }
-    dispatch(getInitialData());
-    // dispatch(getAllCategory());
-  }, []);
+
+    if (auth.authenticated) {
+      dispatch(getInitialData());
+    }
+  }, [auth.authenticated]);
 
   return (
     <div className="App">
       <Switch>
         <PrivateRoute path="/" exact component={Home} />
+        <PrivateRoute path="/page" component={NewPage} />
+
         <PrivateRoute path="/category" exact component={() => <Category />} />
 
         <PrivateRoute path="/products" component={() => <Product />} />

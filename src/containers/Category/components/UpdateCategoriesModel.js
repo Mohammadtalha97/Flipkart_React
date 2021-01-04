@@ -14,10 +14,13 @@ const UpdatedCategoriesModel = (props) => {
     checkedArray,
     handleCategoryInput,
     categoryList,
+    onSubmit,
   } = props;
+
   return (
     <Model
       show={show}
+      onSubmit={onSubmit}
       handleClose={handleClose}
       modelTitle={modelTitle}
       size={size}
@@ -61,7 +64,13 @@ const UpdatedCategoriesModel = (props) => {
               </select>
             </Col>
             <Col>
-              <select className="form-control">
+              <select
+                value={item.type}
+                className="form-control"
+                onChange={(e) =>
+                  handleCategoryInput("type", e.target.value, index, "expanded")
+                }
+              >
                 <option value="">Select Type</option>
                 <option value="store">Store</option>
                 <option value="product">Product</option>
@@ -107,7 +116,13 @@ const UpdatedCategoriesModel = (props) => {
               </select>
             </Col>
             <Col>
-              <select className="form-control">
+              <select
+                className="form-control"
+                value={item.type}
+                onChange={(e) =>
+                  handleCategoryInput("type", e.target.value, index, "checked")
+                }
+              >
                 <option value="">Select Type</option>
                 <option value="store">Store</option>
                 <option value="product">Product</option>

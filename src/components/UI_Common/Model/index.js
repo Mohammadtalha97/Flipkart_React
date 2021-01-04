@@ -17,8 +17,14 @@ const NewModel = (props) => {
               </Button>
             ))
           ) : (
-            <Button variant="primary" onClick={props.handleClose}>
-              Save Changes
+            <Button
+              variant="primary"
+              className="btn-sm"
+              {...props}
+              onClick={props.onSubmit}
+              style={{ backgroundColor: "#333", borderColor: "#333" }}
+            >
+              Save
             </Button>
           )}
         </Modal.Footer>
