@@ -381,7 +381,35 @@
 
 
 
---> store image in base64 
+----------------------------
+(*) QueryString
+----------------------------
+
+--> In db we have category with {id, name, slug, parentId, type, children} [Controller : category.js]
+
+--> 
+    - On header we display total categories with <a> tag [MenuHeader.js]
+    - <a href=""> we have to pass like 
+        - <a href=`/${cat.slug}?cid=${cat.id}&type=${cat.type}`
+    
+    - So, when user click on a tag it will she the URL in the above formate
+
+
+--> Now it will redirect to <Route path="/:slug" component={ProductListPage}/> in App.js
+--> Now in ProductListPage.js page we extract info from URL and check what type it is...?
+--> And respectd page will be shown 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -389,3 +417,4 @@
 --> Changes
     - when page load - get request of only 5 record
     - on record click - getDetails by id
+    - store image in base64 

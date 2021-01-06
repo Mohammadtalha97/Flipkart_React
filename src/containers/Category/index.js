@@ -5,16 +5,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "../../components/Layout";
-import Model from "../../components/UI_Common/Model";
 import {
   addCategory,
   deleteCategories as deleteAction,
   updateCategories,
 } from "../../redux/actions";
 import AddCategoryModel from "./components/AddCategoryModel";
+import DeleteCategoryModel from "./components/DeleteCategoryModel";
 import ShowCategories from "./components/ShowCategoryModel";
 import UpdatedCategoriesModel from "./components/UpdateCategoriesModel";
-import DeleteCategoryModel from "./components/DeleteCategoryModel";
 
 const Category = (props) => {
   const category = useSelector((state) => state.category);
@@ -128,7 +127,6 @@ const Category = (props) => {
 
   //On Delete Click
   const deleteCategory = () => {
-    console.log("deleteCategory");
     updateCheckedAndExpandCategories();
     setDeleteCategoryModel(true);
   };
@@ -183,13 +181,11 @@ const Category = (props) => {
 
   //delete category data
   const deleteCategoryData = () => {
-    console.log("delete before called");
     const checkedIdsArray = checkedArray.map((item) => ({ _id: item.value }));
 
     if (checkedIdsArray.length > 0) {
       dispatch(deleteAction(checkedIdsArray));
       setDeleteCategoryModel(false);
-      console.log("delete after");
     }
   };
 

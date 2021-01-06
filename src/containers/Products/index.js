@@ -92,7 +92,8 @@ const Product = (props) => {
     return (
       <Model
         show={show}
-        handleClose={handleClose}
+        handleClose={() => setShow(false)}
+        onSubmit={handleClose}
         modelTitle={"Add New Product"}
       >
         <Input

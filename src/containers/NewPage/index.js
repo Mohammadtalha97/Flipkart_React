@@ -49,8 +49,6 @@ const NewPage = (props) => {
   };
 
   const submitPageForm = (e) => {
-    // e.preventDefault();
-
     if (title === "") {
       alert("Title is required");
       setCreateModel(false);
@@ -78,7 +76,6 @@ const NewPage = (props) => {
   const onCategoryChange = (e) => {
     const userSelection = e.target.value;
     const category = categoryList.find((cat) => cat.value === userSelection);
-    // setCategoryName(userSelection);
     setCategoryId(userSelection);
     setType(category.type);
   };

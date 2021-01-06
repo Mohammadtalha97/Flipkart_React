@@ -43,8 +43,8 @@ const UpdatedCategoriesModel = (props) => {
               />
             </Col>
             <Col>
-              <select
-                className="form-control"
+              <Input
+                type="select"
                 value={item.parentId}
                 onChange={(e) =>
                   handleCategoryInput(
@@ -54,14 +54,9 @@ const UpdatedCategoriesModel = (props) => {
                     "expanded"
                   )
                 }
-              >
-                <option>Select Option</option>
-                {categoryList.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.name}
-                  </option>
-                ))}
-              </select>
+                placeholder="Select Option"
+                options={categoryList}
+              />
             </Col>
             <Col>
               <select
@@ -95,8 +90,8 @@ const UpdatedCategoriesModel = (props) => {
               />
             </Col>
             <Col>
-              <select
-                className="form-control"
+              <Input
+                type="select"
                 value={item.parentId}
                 onChange={(e) =>
                   handleCategoryInput(
@@ -106,14 +101,9 @@ const UpdatedCategoriesModel = (props) => {
                     "checked"
                   )
                 }
-              >
-                <option>Select Option</option>
-                {categoryList.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.name}
-                  </option>
-                ))}
-              </select>
+                placeholder="Select Option"
+                options={categoryList}
+              />
             </Col>
             <Col>
               <select

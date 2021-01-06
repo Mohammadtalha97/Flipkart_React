@@ -34,18 +34,13 @@ const AddCategoryModel = (props) => {
           />
         </Col>
         <Col>
-          <select
-            className="form-control form-control-sm"
+          <Input
+            type="select"
             value={parentCategoryId}
             onChange={(e) => setParentCategoryId(e.target.value)}
-          >
-            <option>Select Option</option>
-            {categoryList.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.name}
-              </option>
-            ))}
-          </select>
+            placeholder="Select Option"
+            options={categoryList}
+          />
         </Col>
       </Row>
       <Row>
