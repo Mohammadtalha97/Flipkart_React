@@ -403,6 +403,38 @@
 
 
 
+----------------------------
+(*) .map on Object
+----------------------------
+
+
+--> if we want to operate .map function on Object we can use Object.keys(objectName)
+--> which create an array of keys
+{
+    "1" : { },
+    "2" : { },
+    "3" : { }
+}  
+
+so it will create array like ["1","2","3"] now we can loop through them
+
+
+Object.keys(objectName).map( (key, index) => {
+    console.log( objectName[key] )
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
